@@ -9,7 +9,7 @@ function Node(state) {
         var state = this.state;
 
         if (!state) {
-            return null;
+            return false;
         }
 
         changed = state.changeState(1, 0);

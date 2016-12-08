@@ -40,11 +40,11 @@ State.prototype.changeState = function(missionaries, cannibals) {
     }
 
     if ((rightM < rightC && rightM != 0) || (leftM < leftC && leftM != 0)) {
-        return null;
+        return false;
     }
 
     if (rightM < 0 || rightC < 0 || leftC < 0 || leftM < 0) {
-        return null;
+        return false;
     }
 
     if (rightM == 3 && rightC == 3) {

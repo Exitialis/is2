@@ -20,12 +20,10 @@ function bfSearch(node) {
         }
 
         open.shift();
-        closed.push(node);
-        node.adj.forEach(function(node) {
 
-            if (!node) {
-                return;
-            }
+        closed.push(node);
+
+        node.adj.forEach(function(node) {
 
             node.loadNextLevel();
 
@@ -33,8 +31,8 @@ function bfSearch(node) {
                 open.push(node);
             }
         });
-    } while(node != null);
 
+    } while(node != null);
 
     return false;
 }
