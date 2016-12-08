@@ -3,6 +3,41 @@ function Node(state) {
 
     this.parent = null;
     this.adj = [];
+
+    this.loadNextLevel = function() {
+        var changed;
+        var state = this.state;
+
+        if (!state) {
+            return null;
+        }
+
+        changed = state.changeState(1, 0);
+        setNewState(changed, this);
+
+        changed = state.changeState(0, 1);
+        setNewState(changed, this);
+
+        changed = state.changeState(2, 0);
+        setNewState(changed, this);
+
+        changed = state.changeState(0, 2);
+        setNewState(changed, this);
+
+        changed = state.changeState(1, 1);
+        setNewState(changed, this);
+    };
+
+    function setNewState(state, parentNode) {
+        if (!state) {
+            return;
+        }
+
+        var node = new Node(state);
+        node.setParent(parentNode);
+
+        parentNode.addAdj(node);
+    }
 }
 
 Node.prototype.removeAdj = function(adj) {

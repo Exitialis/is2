@@ -1,59 +1,57 @@
-function State() {
+function State(leftM, leftC, rightM, rightC, boat) {
     //false - левый берег, true - правый.
-    this.boat = false;
+    this.boat = boat;
 
     this.leftSide = {
-        missionaries: 3,
-        cannibals: 3
+        missionaries: leftM,
+        cannibals: leftC
     };
 
-    this.rightSide = {};
+    this.rightSide = {
+        missionaries: rightM,
+        cannibals: rightC
+    };
 }
 
 State.prototype.changeState = function(missionaries, cannibals) {
-    if (this.boat) {
-        this.leftSide.missionaries -= missionaries;
-        this.leftSide.cannibals -= cannibals;
 
-        this.rightSide.missionaries += missionaries;
-        this.rightSide.cannibals += cannibals;
+    var leftM = this.leftSide.missionaries,
+        leftC = this.leftSide.cannibals,
+        rightM = this.rightSide.missionaries,
+        rightC = this.rightSide.cannibals,
+        boat = this.boat;
 
-        this.boat = true;
+    if ( ! this.boat) {
+        boat = true;
+
+        leftM -= missionaries;
+        leftC -= cannibals;
+
+        rightM += missionaries;
+        rightC += cannibals;
     } else {
-        this.rightSide.missionaries -= missionaries;
-        this.rightSide.cannibals -= cannibals;
+        boat = false;
 
-        this.leftSide.missionaries += missionaries;
-        this.leftSide.cannibals += cannibals;
+        rightM -= missionaries;
+        rightC -= cannibals;
 
-        this.boat = false;
+        leftM += missionaries;
+        leftC += cannibals;
     }
 
-    return this;
-};
+    if ((rightM < rightC && rightM != 0) || (leftM < leftC && leftM != 0)) {
+        return null;
+    }
 
-/*State.prototype.loadNext = function() {
-    this.
-};
+    if (rightM < 0 || rightC < 0 || leftC < 0 || leftM < 0) {
+        return null;
+    }
 
-State.prototype.firstChange = function() {
-    this.changeState(1, 1);
-};
+    if (rightM == 3 && rightC == 3) {
+        return true;
+    }
 
-State.prototype.secondChange = function () {
-    this.changeState(1, 0);
+    return new State(leftM, leftC, rightM, rightC, boat);
 };
-
-State.prototype.thirdChange = function () {
-    this.changeState(0, 1);
-};
-
-State.prototype.fourthChange = function () {
-    this.changeState(2, 0);
-};
-
-State.prototype.fiveChange = function () {
-    this.changeState(0, 2);
-};*/
 
 module.exports = State;
