@@ -4,8 +4,6 @@ var Node = require('./node.js');
 
 var node = new Node(new State(3, 3, 0, 0, false));
 
-node.loadNextLevel();
-
 console.log(bfSearch(node));
 
 function bfSearch(node) {
@@ -15,23 +13,20 @@ function bfSearch(node) {
     do {
         node = open.first();
 
-        if (node.state === true) {
+        if (node.state.completed === true) {
             return findWay(node);
         }
 
-        open.shift();
+        node.loadNextLevel();
 
+        open.shift();
         closed.push(node);
 
         node.adj.forEach(function(node) {
-
-            node.loadNextLevel();
-
             if ( ! open.check(node) || ! closed.check(node)) {
                 open.push(node);
             }
         });
-
     } while(node != null);
 
     return false;
@@ -40,10 +35,10 @@ function bfSearch(node) {
 function findWay(node) {
 
     var path = [];
-    path.unshift(node.name);
+    path.unshift(node.state);
 
     while (node.parent != null) {
-        path.unshift(node.parent.name);
+        path.unshift(node.parent.state);
         node = node.parent;
     }
 

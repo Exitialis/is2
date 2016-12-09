@@ -2,6 +2,8 @@ function State(leftM, leftC, rightM, rightC, boat) {
     //false - левый берег, true - правый.
     this.boat = boat;
 
+    this.completed = false;
+
     this.leftSide = {
         missionaries: leftM,
         cannibals: leftC
@@ -47,11 +49,14 @@ State.prototype.changeState = function(missionaries, cannibals) {
         return false;
     }
 
+    var state = new State(leftM, leftC, rightM, rightC, boat);
+
     if (rightM == 3 && rightC == 3) {
-        return true;
+        state.completed = true;
     }
 
-    return new State(leftM, leftC, rightM, rightC, boat);
+    return state;
+
 };
 
 module.exports = State;
